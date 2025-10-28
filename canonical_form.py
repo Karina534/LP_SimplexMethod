@@ -5,7 +5,6 @@ def expand_variables(c, var_types, constraints):
     Разворачивает free-переменные:
     x_j = x_j_plus - x_j_minus, где обе >= 0.
     Возвращает: new_c, new_constraints, new_var_types, var_names, mapping
-    mapping[j] = список индексов в расширённой системе, соответствующих исходной переменной j
     """
     new_c = []
     new_var_types = []
@@ -52,15 +51,15 @@ def to_canonical(objective, c, constraints, var_types):
     затем добавляет slack/surplus/artificial. Возвращает:
     c_canon, A, b, var_names, var_types_out, mapping
     """
-    # 1) Разворачиваем free-переменные (если есть)
+    # Разворачиваем free-переменные (если есть)
     c_exp, constraints_exp, var_types_exp, var_names_exp, mapping = expand_variables(c, var_types, constraints)
 
     n = len(c_exp)            # число переменных после разворачивания free
     m = len(constraints_exp)
 
     # Инициализация A и b по расширённым данным
-    var_names = var_names_exp[:]       # имена исходных/развернутых переменных
-    var_types_out = var_types_exp[:]   # текущие типы (обычно '+')
+    var_names = var_names_exp[:]
+    var_types_out = var_types_exp[:]
 
     A = np.zeros((m, n))
     b = np.zeros(m)
@@ -73,7 +72,7 @@ def to_canonical(objective, c, constraints, var_types):
             A[i, :] = a_row
         b[i] = bi
 
-    # 2) Добавляем дополнительные столбцы (slack/surplus/artificial)
+    # Добавляем дополнительные столбцы (slack/surplus/artificial)
     artificial_count = 0
     for i, (_, sign, _) in enumerate(constraints_exp):
         if sign == "<=":
@@ -100,7 +99,7 @@ def to_canonical(objective, c, constraints, var_types):
         else:
             raise ValueError(f"Неизвестный знак ограничения: {sign}")
 
-    # 3) Подготовка коэффициентов целевой функции (к минимуму)
+    # Подготовка коэффициентов целевой функции (к минимуму)
     added_cols = A.shape[1] - n
     c_canon = np.concatenate([c_exp, np.zeros(added_cols)])
     if objective == 'max':

@@ -67,7 +67,7 @@ def two_phase_simplex(objective, c, constraints, var_types, verbose=True):
         var_names = [v for i, v in enumerate(var_names) if i not in deleted]
         var_types_out = [v for i, v in enumerate(var_types_out) if i not in deleted]
 
-        # Правильно пересчитаем базис (индексы столбцов смещаются после удаления)
+        # Пересчитаем базис (индексы столбцов смещаются после удаления)
         basis = remap_basis_after_deletion(basis, deleted)
 
         if verbose:
