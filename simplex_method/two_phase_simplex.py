@@ -1,9 +1,9 @@
 import numpy as np
 
-from lp_parser import read_lp_file
-from canonical_form import to_canonical
-from simplex_phase import simplex_phase
-from simplex_table import find_artificial_indices, build_auxiliary_objective, build_simplex_tableau, find_start_basis
+from simplex_method.lp_parser import read_lp_file
+from simplex_method.canonical_form import to_canonical
+from simplex_method.simplex_phase import simplex_phase
+from simplex_method.simplex_table import find_artificial_indices, build_auxiliary_objective, build_simplex_tableau, find_start_basis
 
 def remap_basis_after_deletion(old_basis, deleted_inds):
     """
