@@ -27,7 +27,7 @@ def make_function_from_string(expr: str) -> Callable[[float], float]:
     Примеры ввода: "x + sin(3.14159*x)", "x**2 + 10 - 10*cos(2*pi*x)"
     Поддерживаемые имена: sin, cos, tan, exp, log, sqrt, pi, e, abs, etc.
     """
-    # Простая безопасная среда выполнения
+
     import math as _math
     allowed_names = {
         k: getattr(_math, k) for k in [
