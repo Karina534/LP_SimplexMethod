@@ -18,6 +18,7 @@ from typing import Callable, Tuple, List, Optional
 try:
     import sympy as sp
     _HAS_SYM = True
+    print("sympy is here")
 except Exception:
     _HAS_SYM = False
 
